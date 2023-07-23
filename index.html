@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GMO Payment Gateway</title>
+</head>
+<body>
+  <h1>Hello mother fucker</h1>
+  <script src="https://stg.static.mul-pay.jp/ext/js/token.js"></script>
+  <script type="text/javascript">
+    Multipayment.init("tshop00062648")
+    Multipayment.getToken(
+      {
+        cardno: '3111111111111111',
+        expire: '202507',
+        securitycode: '111',
+        holdername: 'NGUYEN ANH QUAN',
+        tokennumber: '1',
+      },
+      (res) => console.log(res)
+    )
+  </script>
+</body>
+</html>
