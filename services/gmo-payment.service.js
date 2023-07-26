@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { GMO_BASE_URL, GMO_SEQ_MODE } from '@root/helpers/constants'
+import { GMO_BASE_URL, GMO_JOB_CODE, GMO_PAYMENT_METHOD, GMO_SEQ_MODE } from '@root/helpers/constants'
 
 export const registerTransaction = async (orderCount, jobCode, amount) => {
   console.log(process.env.GMO_SHOP_ID, process.env.GMO_SHOP_PASS)
@@ -98,5 +98,79 @@ export const getTransactionByOrderId = async (orderID, useSiteMaskLevel = 0, use
     useFloatingMask,
   }
   const endpoint = `${GMO_BASE_URL}/payment/SearchTrade.json`
+  return axios.post(endpoint, params)
+}
+
+export const getPaymentUrl = async () => {
+  const endpoint = `${GMO_BASE_URL}/payment/GetLinkplusUrlPayment.json`
+  const params = {
+    geturlparam: {
+      ShopID: process.env.GMO_SHOP_ID,
+      ShopPass: process.env.GMO_SHOP_PASS,
+    },
+    configid: '1',
+    transaction: {
+      OrderID: 'ORDER000013',
+      Amount: 1000,
+      Tax: 20,
+      Overview: 'This is overview of transaction',
+      Detail: 'This is detail of transaction',
+      PayMethods: ['credit'],
+      RetUrl: 'https://market-dev.genso.game/official/treasure-box',
+      ExpireDays: 0,
+      // PaymentExpireDate: '202308251700',
+      ResultSkipFlag: 1,
+      TranDetailShowFlag: 1,
+    },
+    displaysetting: {
+      TemplateID: 'designA',
+      LogoUrl:
+        'https://img.freepik.com/premium-vector/letter-cc-logo-design-abstract-letter-cc-logo-design_219523-125.jpg',
+      ShopName: 'Gensokishi Marketplace',
+      ColorPattern: 'yellow_01',
+      Lang: 'en',
+    },
+    credit: {
+      JobCd: GMO_JOB_CODE.AUTHORIZATION,
+      Method: GMO_PAYMENT_METHOD.BULK,
+      MemberID: 'MEM00002',
+      SecCodeRequiredFlag: 1,
+      RegistMemberID: 'MEM00002',
+    },
+  }
+  return axios.post(endpoint, params)
+}
+
+export const getCardEditUrl = async () => {
+  const endpoint = `${GMO_BASE_URL}/payment/GetLinkplusUrlMember.json`
+  const params = {
+    geturlparam: {
+      ShopID: process.env.GMO_SHOP_ID,
+      ShopPass: process.env.GMO_SHOP_PASS,
+    },
+    configid: '1',
+    member: {
+      MemberID: 'MEM00001',
+      Cardeditno: '2',
+      RetUrl: 'https://market-dev.genso.game/official/treasure-box',
+      SecCodeRequiredFlag: 1,
+      CardMaxCnt: 5,
+      ResultSkipFlag: 0,
+    },
+    displaysetting: {
+      LogoUrl:
+        'https://img.freepik.com/premium-vector/letter-cc-logo-design-abstract-letter-cc-logo-design_219523-125.jpg',
+      ShopName: 'Gensokishi Marketplace',
+      ColorPattern: 'skyblue_01',
+      Lang: 'en',
+    },
+    credit: {
+      JobCd: GMO_JOB_CODE.AUTHORIZATION,
+      Method: GMO_PAYMENT_METHOD.BULK,
+      MemberID: 'MEM00002',
+      SecCodeRequiredFlag: 1,
+      RegistMemberID: 'MEM00002',
+    },
+  }
   return axios.post(endpoint, params)
 }

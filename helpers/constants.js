@@ -1,4 +1,4 @@
-export const GMO_BASE_URL = 'https://pt01.mul-pay.jp/'
+export const GMO_BASE_URL = 'https://pt01.mul-pay.jp'
 
 export const GMO_JOB_CODE = Object.freeze({
   CHECK: 'CHECK',
