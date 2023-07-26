@@ -55,10 +55,12 @@ const main = async (times) => {
   const smartAccount = await createSmartAccount()
   const now = Date.now()
   for (let i = 0; i < times; i += 1) {
-    transferToken(smartAccount)
-      .then((tx) => console.log(i + 1, Date.now() - now, tx.receipt.from, tx.receipt.transactionHash))
-      .catch((err) => console.log(`Error at ${i + 1}: ${err}`))
+    setTimeout(async () => {
+      console.log('Send transaction ', i + 1)
+      const tx = await transferToken(smartAccount).catch((err) => console.log(`${i + 1}: ${err.message}`))
+      console.log(i + 1, Date.now() - now, tx.receipt.from, tx.receipt.transactionHash)
+    }, 500)
   }
 }
 
-main(1)
+main(5)
